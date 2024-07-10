@@ -1,0 +1,10 @@
+{
+  "name": "dds-to-png",
+  "version": "0.1.0",
+  "description": "Simple script to convert compressed DSS texture atlasses to PNG files. Not thoroughly checked against different DDS formats.",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "types": "./index.d.ts"
+}

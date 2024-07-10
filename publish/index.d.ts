@@ -1,0 +1,1 @@
+export default function convertDdsToPng(ddsPath: string, outputPath: string): Promise<string>;
