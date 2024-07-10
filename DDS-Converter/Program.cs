@@ -27,7 +27,7 @@ class DDS_Converter {
 
                 // Decompress BC3_UNORM to R8G8B8A8_UNORM to ensure compatibility with ImageSharp
                 ScratchImage decompressedImage = null;
-                if (metaData.Format == DXGI_FORMAT.BC3_UNORM) {
+                if (metaData.Format == DXGI_FORMAT.BC3_UNORM || metaData.Format == DXGI_FORMAT.BC1_UNORM) {
                     try {
                         decompressedImage = image.Decompress(0, DXGI_FORMAT.R8G8B8A8_UNORM);
                     } catch (COMException comEx) {
@@ -37,7 +37,7 @@ class DDS_Converter {
                     try {
                         decompressedImage = image.Convert(0, DXGI_FORMAT.R8G8B8A8_UNORM, TEX_FILTER_FLAGS.DEFAULT, 0.5f);
                     } catch (COMException comEx) {
-                        Console.WriteLine($"Conversion to R8G8B8A8_UNORM failed: {comEx.Message} (HRESULT: {comEx.HResult})");
+                        Console.WriteLine($"Conversion to R8G8B8A8_UNORM failed (format: {metaData.Format}): {comEx.Message} (HRESULT: {comEx.HResult})");
                     }
                 } else {
                     decompressedImage = image;
