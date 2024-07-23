@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using DirectXTexNet;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -25,9 +25,23 @@ class DDS_Converter {
             
                 var metaData = image.GetMetadata();
 
-                // Decompress BC3_UNORM to R8G8B8A8_UNORM to ensure compatibility with ImageSharp
+                // List of BC UNORM formats
+                DXGI_FORMAT[] bcUnormFormats = {
+                    DXGI_FORMAT.BC1_UNORM,
+                    DXGI_FORMAT.BC1_UNORM_SRGB,
+                    DXGI_FORMAT.BC2_UNORM,
+                    DXGI_FORMAT.BC2_UNORM_SRGB,
+                    DXGI_FORMAT.BC3_UNORM,
+                    DXGI_FORMAT.BC3_UNORM_SRGB,
+                    DXGI_FORMAT.BC4_UNORM,
+                    DXGI_FORMAT.BC5_UNORM,
+                    DXGI_FORMAT.BC7_UNORM,
+                    DXGI_FORMAT.BC7_UNORM_SRGB
+                };
+
+                // Decompress BC UNORM formats to R8G8B8A8_UNORM to ensure compatibility with ImageSharp
                 ScratchImage decompressedImage = null;
-                if (metaData.Format == DXGI_FORMAT.BC3_UNORM || metaData.Format == DXGI_FORMAT.BC1_UNORM) {
+                if (Array.Exists(bcUnormFormats, format => format == metaData.Format)) {
                     try {
                         decompressedImage = image.Decompress(0, DXGI_FORMAT.R8G8B8A8_UNORM);
                     } catch (COMException comEx) {
