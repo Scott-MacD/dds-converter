@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using DirectXTexNet;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -69,6 +69,13 @@ class DDS_Converter {
 
                 // Create ImageSharp image from pixel data
                 using var imageSharpImage = SixLabors.ImageSharp.Image.LoadPixelData<Rgba32>(pixelData, width, height);
+
+                // Ensure the output directory exists
+                string outputDirectory = Path.GetDirectoryName(output);
+                if (!string.IsNullOrEmpty(outputDirectory)) {
+                    Directory.CreateDirectory(outputDirectory);
+                }
+
                 imageSharpImage.Save(output);
             }
 
